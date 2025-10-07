@@ -1,0 +1,1251 @@
+{
+	"info": {
+		"_postman_id": "chat-system-api-collection",
+		"name": "Chat System API",
+		"description": "Complete API collection for Chat System Backend with MongoDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "chat-system"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/health",
+					"host": ["{{baseUrl}}"],
+					"path": ["health"]
+				}
+			}
+		},
+		{
+			"name": "API Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api",
+					"host": ["{{baseUrl}}"],
+					"path": ["api"]
+				}
+			}
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "me"]
+						}
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/refresh",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "refresh"]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/logout",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "logout"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users (Super Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Create User (Super Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"newuser\",\n  \"email\": \"newuser@example.com\",\n  \"password\": \"password123\",\n  \"roles\": [\"user\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"updated@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete User (Super Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Get User Groups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/{{userId}}/groups",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "{{userId}}", "groups"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "Get All Groups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/groups",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups"]
+						}
+					}
+				},
+				{
+					"name": "Get Group by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/{{groupId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "{{groupId}}"]
+						}
+					}
+				},
+				{
+					"name": "Create Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test Group\",\n  \"description\": \"A test group for development\",\n  \"category\": \"general\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/groups",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups"]
+						}
+					}
+				},
+				{
+					"name": "Update Group",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Group Name\",\n  \"description\": \"Updated description\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/{{groupId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "{{groupId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Group",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/{{groupId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "{{groupId}}"]
+						}
+					}
+				},
+				{
+					"name": "Add Member to Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/{{groupId}}/members",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "{{groupId}}", "members"]
+						}
+					}
+				},
+				{
+					"name": "Remove Member from Group",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/{{groupId}}/members/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "{{groupId}}", "members", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Add Admin to Group (Super Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/{{groupId}}/admins",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "{{groupId}}", "admins"]
+						}
+					}
+				},
+				{
+					"name": "Remove Admin from Group (Super Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/{{groupId}}/admins/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "{{groupId}}", "admins", "{{userId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Channels",
+			"item": [
+				{
+					"name": "Get All Channels",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/channels",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "channels"]
+						}
+					}
+				},
+				{
+					"name": "Get Channels by Group",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/channels/group/{{groupId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "channels", "group", "{{groupId}}"]
+						}
+					}
+				},
+				{
+					"name": "Get Channel by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/channels/{{channelId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "channels", "{{channelId}}"]
+						}
+					}
+				},
+				{
+					"name": "Create Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test Channel\",\n  \"groupId\": \"{{groupId}}\",\n  \"type\": \"text\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/channels",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "channels"]
+						}
+					}
+				},
+				{
+					"name": "Update Channel",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Channel Name\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/channels/{{channelId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "channels", "{{channelId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Channel",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/channels/{{channelId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "channels", "{{channelId}}"]
+						}
+					}
+				},
+				{
+					"name": "Add Member to Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/channels/{{channelId}}/members",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "channels", "{{channelId}}", "members"]
+						}
+					}
+				},
+				{
+					"name": "Remove Member from Channel",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/channels/{{channelId}}/members/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "channels", "{{channelId}}", "members", "{{userId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Get Messages by Channel",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/channel/{{channelId}}?limit=50&offset=0",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "channel", "{{channelId}}"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "50"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Message by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/{{messageId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "{{messageId}}"]
+						}
+					}
+				},
+				{
+					"name": "Create Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+					"body": {
+						"mode": "raw",
+						"raw": "{\n  \"text\": \"Hello, this is a test message!\",\n  \"channelId\": \"{{channelId}}\",\n  \"type\": \"text\"\n}"
+					},
+						"url": {
+							"raw": "{{baseUrl}}/api/messages",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages"]
+						}
+					}
+				},
+				{
+					"name": "Update Message",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+					"body": {
+						"mode": "raw",
+						"raw": "{\n  \"text\": \"Updated message content\"\n}"
+					},
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/{{messageId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "{{messageId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Message",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/{{messageId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "{{messageId}}"]
+						}
+					}
+				},
+				{
+					"name": "Get Messages by User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/user/{{userId}}?limit=50&offset=0",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "user", "{{userId}}"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "50"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Search Messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/search?query=test&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "search"],
+							"query": [
+								{
+									"key": "query",
+									"value": "test"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Get Dashboard Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/dashboard",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "dashboard"]
+						}
+					}
+				},
+				{
+					"name": "Get All Users (Super Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users"]
+						}
+					}
+				},
+				{
+					"name": "Create User (Super Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"adminuser\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\",\n  \"roles\": [\"admin\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users"]
+						}
+					}
+				},
+				{
+					"name": "Delete User (Super Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users", "{{userId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Upload",
+			"item": [
+				{
+					"name": "Upload Avatar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/upload/avatar",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "upload", "avatar"]
+						}
+					}
+				},
+				{
+					"name": "Upload Image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/upload/image",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "upload", "image"]
+						}
+					}
+				},
+				{
+					"name": "Upload File",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/upload/file",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "upload", "file"]
+						}
+					}
+				},
+				{
+					"name": "Upload Multiple Files",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/upload/multiple",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "upload", "multiple"]
+						}
+					}
+				},
+				{
+					"name": "Get File Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/upload/info/{{filename}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "upload", "info", "{{filename}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete File",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/upload/{{filename}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "upload", "{{filename}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Video Calls",
+			"item": [
+				{
+					"name": "Get Call History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/video-calls/history",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "video-calls", "history"]
+						}
+					}
+				},
+				{
+					"name": "Get Active Calls",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/video-calls/active",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "video-calls", "active"]
+						}
+					}
+				},
+				{
+					"name": "Get Call Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/video-calls/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "video-calls", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Cleanup Expired Calls (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/video-calls/cleanup",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "video-calls", "cleanup"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/client/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "client", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"newemail@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/client/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "client", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Get My Groups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/client/groups",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "client", "groups"]
+						}
+					}
+				},
+				{
+					"name": "Get My Channels",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/client/channels",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "client", "channels"]
+						}
+					}
+				},
+				{
+					"name": "Get My Messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/client/messages",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "client", "messages"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-set auth token from login response",
+					"if (pm.response && pm.response.json) {",
+					"    const response = pm.response.json();",
+					"    if (response.data && response.data.accessToken) {",
+					"        pm.environment.set('authToken', response.data.accessToken);",
+					"    }",
+					"    if (response.data && response.data.refreshToken) {",
+					"        pm.environment.set('refreshToken', response.data.refreshToken);",
+					"    }",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refreshToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "groupId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "channelId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "messageId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "filename",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

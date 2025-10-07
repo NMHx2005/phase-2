@@ -1,0 +1,46 @@
+{
+  "users": {
+    "testUser": {
+      "username": "e2etestuser",
+      "email": "e2etest@example.com",
+      "password": "password123",
+      "roles": ["user"]
+    },
+    "adminUser": {
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "adminpassword",
+      "roles": ["super_admin"]
+    }
+  },
+  "groups": [
+    {
+      "name": "Test Group",
+      "description": "A test group for E2E testing",
+      "isPrivate": false
+    }
+  ],
+  "channels": [
+    {
+      "name": "general",
+      "description": "General discussion",
+      "type": "text"
+    },
+    {
+      "name": "voice",
+      "description": "Voice chat",
+      "type": "voice"
+    }
+  ],
+  "messages": [
+    {
+      "text": "Hello from E2E test!",
+      "type": "text"
+    },
+    {
+      "text": "This is a test image",
+      "type": "image",
+      "imageUrl": "/uploads/images/test-image.jpg"
+    }
+  ]
+}
