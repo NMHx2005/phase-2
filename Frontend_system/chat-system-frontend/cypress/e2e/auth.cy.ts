@@ -102,14 +102,13 @@ describe('Authentication Flow', () => {
         cy.get('[data-cy="login-button"]').should('be.disabled');
     });
 
-    it('should validate email format', () => {
-        cy.get('[data-cy="email-input"]').type('invalid-email');
+    // Test removed: Email format validation no longer required
+    // Username field now accepts any non-empty string for flexibility
+    it('should enable login button with any valid username', () => {
+        cy.get('[data-cy="email-input"]').type('testuser'); // Not an email, but valid
         cy.get('[data-cy="password-input"]').type('password123');
 
-        // Button should be disabled due to invalid email
-        cy.get('[data-cy="login-button"]').should('be.disabled');
-
-        // Email input should have ng-invalid class
-        cy.get('[data-cy="email-input"]').should('have.class', 'ng-invalid');
+        // Button should be enabled with username (not email format)
+        cy.get('[data-cy="login-button"]').should('not.be.disabled');
     });
 });

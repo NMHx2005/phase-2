@@ -254,7 +254,7 @@ export class LoginFormComponent implements OnInit {
 
   private initForm(): void {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]], // Removed Validators.email to allow username login
       password: ['', [Validators.required]]
     });
   }

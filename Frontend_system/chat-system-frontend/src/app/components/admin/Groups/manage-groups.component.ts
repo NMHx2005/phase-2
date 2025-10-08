@@ -38,38 +38,160 @@ import { GroupsStatsComponent } from './ui/groups-stats.component';
     MatIconModule
   ],
   template: `
-    <h2 mat-dialog-title>Create New Group</h2>
+    <h2 mat-dialog-title>
+      <mat-icon>add_circle</mat-icon>
+      Create New Group
+    </h2>
     <mat-dialog-content>
       <form [formGroup]="groupForm" (ngSubmit)="createGroup()">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Group Name</mat-label>
-          <input matInput formControlName="name" required minlength="3" maxlength="50">
-          <mat-error *ngIf="groupForm.get('name')?.hasError('required')">
-            Group name is required
-          </mat-error>
-          <mat-error *ngIf="groupForm.get('name')?.hasError('minlength')">
-            Group name must be at least 3 characters
-          </mat-error>
-        </mat-form-field>
+        <div class="form-grid">
+          <!-- Group Name -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Group Name</mat-label>
+            <input matInput 
+                   formControlName="name" 
+                   required 
+                   minlength="3" 
+                   maxlength="50"
+                   placeholder="Enter group name">
+            <mat-icon matSuffix>group</mat-icon>
+            <mat-error *ngIf="groupForm.get('name')?.hasError('required')">
+              Group name is required
+            </mat-error>
+            <mat-error *ngIf="groupForm.get('name')?.hasError('minlength')">
+              Group name must be at least 3 characters
+            </mat-error>
+            <mat-error *ngIf="groupForm.get('name')?.hasError('maxlength')">
+              Group name must not exceed 50 characters
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" rows="3" maxlength="200"></textarea>
-          <mat-hint align="end">{{ groupForm.get('description')?.value?.length || 0 }}/200</mat-hint>
-        </mat-form-field>
+          <!-- Description -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput 
+                      formControlName="description" 
+                      rows="3" 
+                      maxlength="500"
+                      placeholder="Enter group description"></textarea>
+            <mat-hint align="end">{{ groupForm.get('description')?.value?.length || 0 }}/500</mat-hint>
+            <mat-error *ngIf="groupForm.get('description')?.hasError('maxlength')">
+              Description must not exceed 500 characters
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Privacy</mat-label>
-          <mat-select formControlName="isPrivate">
-            <mat-option [value]="false">Public</mat-option>
-            <mat-option [value]="true">Private</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <!-- Category -->
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category" required>
+              <mat-option value="">Select Category</mat-option>
+              <mat-option value="technology">
+                <mat-icon>computer</mat-icon> Technology
+              </mat-option>
+              <mat-option value="business">
+                <mat-icon>business</mat-icon> Business
+              </mat-option>
+              <mat-option value="education">
+                <mat-icon>school</mat-icon> Education
+              </mat-option>
+              <mat-option value="entertainment">
+                <mat-icon>movie</mat-icon> Entertainment
+              </mat-option>
+              <mat-option value="design">
+                <mat-icon>palette</mat-icon> Design
+              </mat-option>
+              <mat-option value="general">
+                <mat-icon>folder</mat-icon> General
+              </mat-option>
+              <mat-option value="other">
+                <mat-icon>more_horiz</mat-icon> Other
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>category</mat-icon>
+            <mat-error *ngIf="groupForm.get('category')?.hasError('required')">
+              Category is required
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Status -->
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" required>
+              <mat-option [value]="GroupStatus.ACTIVE">
+                <mat-icon>check_circle</mat-icon> Active
+              </mat-option>
+              <mat-option [value]="GroupStatus.INACTIVE">
+                <mat-icon>cancel</mat-icon> Inactive
+              </mat-option>
+              <mat-option [value]="GroupStatus.PENDING">
+                <mat-icon>pending</mat-icon> Pending
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>toggle_on</mat-icon>
+            <mat-error *ngIf="groupForm.get('status')?.hasError('required')">
+              Status is required
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Max Members -->
+          <mat-form-field appearance="outline">
+            <mat-label>Max Members</mat-label>
+            <input matInput 
+                   type="number" 
+                   formControlName="maxMembers" 
+                   min="1" 
+                   max="1000"
+                   placeholder="Maximum members">
+            <mat-icon matSuffix>people</mat-icon>
+            <mat-hint>Default: 100</mat-hint>
+            <mat-error *ngIf="groupForm.get('maxMembers')?.hasError('min')">
+              Max members must be at least 1
+            </mat-error>
+            <mat-error *ngIf="groupForm.get('maxMembers')?.hasError('max')">
+              Max members must not exceed 1000
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Privacy -->
+          <mat-form-field appearance="outline">
+            <mat-label>Privacy</mat-label>
+            <mat-select formControlName="isPrivate">
+              <mat-option [value]="false">
+                <mat-icon>public</mat-icon> Public
+              </mat-option>
+              <mat-option [value]="true">
+                <mat-icon>lock</mat-icon> Private
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>{{ groupForm.get('isPrivate')?.value ? 'lock' : 'public' }}</mat-icon>
+            <mat-hint>Public groups are visible to everyone</mat-hint>
+          </mat-form-field>
+
+          <!-- Tags -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Tags (comma-separated)</mat-label>
+            <input matInput 
+                   formControlName="tags" 
+                   placeholder="javascript, react, nodejs"
+                   maxlength="200">
+            <mat-icon matSuffix>label</mat-icon>
+            <mat-hint align="end">{{ groupForm.get('tags')?.value?.length || 0 }}/200</mat-hint>
+            <mat-error *ngIf="groupForm.get('tags')?.hasError('maxlength')">
+              Tags must not exceed 200 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
       </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button (click)="dialogRef.close()">Cancel</button>
-      <button mat-raised-button color="primary" (click)="createGroup()" [disabled]="!groupForm.valid || isSubmitting">
+      <button mat-button (click)="dialogRef.close()">
+        <mat-icon>close</mat-icon>
+        Cancel
+      </button>
+      <button mat-raised-button 
+              color="primary" 
+              (click)="createGroup()" 
+              [disabled]="!groupForm.valid || isSubmitting">
         <mat-icon *ngIf="!isSubmitting">add</mat-icon>
         <mat-icon *ngIf="isSubmitting" class="spinning">refresh</mat-icon>
         {{ isSubmitting ? 'Creating...' : 'Create Group' }}
@@ -77,15 +199,73 @@ import { GroupsStatsComponent } from './ui/groups-stats.component';
     </mat-dialog-actions>
   `,
   styles: [`
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #667eea;
+    }
+
+    mat-dialog-content {
+      min-width: 500px;
+      max-width: 600px;
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
     .full-width {
+      grid-column: 1 / -1;
+    }
+
+    mat-form-field {
       width: 100%;
-      margin-bottom: 16px;
+    }
+
+    mat-dialog-actions {
+      padding: 16px 24px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .spinning {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Style for mat-options with icons */
+    ::ng-deep .mat-mdc-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+      mat-dialog-content {
+        min-width: 300px;
+        padding: 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
     }
   `]
 })
 export class CreateGroupDialogComponent {
   groupForm: FormGroup;
   isSubmitting = false;
+  GroupStatus = GroupStatus;
 
   constructor(
     public dialogRef: MatDialogRef<CreateGroupDialogComponent>,
@@ -96,8 +276,12 @@ export class CreateGroupDialogComponent {
   ) {
     this.groupForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      description: ['', Validators.maxLength(200)],
-      isPrivate: [false]
+      description: ['', Validators.maxLength(500)],
+      category: ['', Validators.required],
+      status: [GroupStatus.ACTIVE, Validators.required],
+      maxMembers: [100, [Validators.min(1), Validators.max(1000)]],
+      isPrivate: [false],
+      tags: ['', Validators.maxLength(200)]
     });
   }
 
@@ -105,11 +289,24 @@ export class CreateGroupDialogComponent {
     if (this.groupForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
 
+      const formValue = this.groupForm.value;
+
+      // Convert tags string to array
+      const tags = formValue.tags
+        ? formValue.tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag.length > 0)
+        : [];
+
       const groupData = {
-        name: this.groupForm.get('name')?.value,
-        description: this.groupForm.get('description')?.value,
-        isPrivate: this.groupForm.get('isPrivate')?.value
+        name: formValue.name,
+        description: formValue.description,
+        category: formValue.category,
+        status: formValue.status,
+        maxMembers: formValue.maxMembers,
+        isPrivate: formValue.isPrivate,
+        tags: tags
       };
+
+      console.log('Creating group with data:', groupData);
 
       this.groupService.createGroup(groupData)
         .pipe(
@@ -863,23 +1060,29 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // Ensure user data is loaded from localStorage first
+    // CRITICAL FIX: Load user FIRST before anything else
     this.authService.ensureUserLoaded();
+
+    // Get current user IMMEDIATELY (synchronously if already in localStorage)
+    this.currentUser = this.authService.getCurrentUser();
+    console.log('🔍 ManageGroupsComponent.ngOnInit - Initial currentUser:', this.currentUser);
 
     // Subscribe to currentUser$ observable to ensure we get updates when user data loads
     this.authService.currentUser$
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
+        console.log('🔍 ManageGroupsComponent.currentUser$ subscription - user:', user);
         this.currentUser = user;
         this.debugUserPermissions();
-        // Trigger change detection to update button states
+        // CRITICAL: Trigger change detection to update button states
         this.cdr.detectChanges();
       });
 
-    // Also try to get current user immediately in case it's already loaded
-    this.currentUser = this.authService.getCurrentUser();
+    // Debug initial state
     if (this.currentUser) {
       this.debugUserPermissions();
+    } else {
+      console.warn('⚠️ ManageGroupsComponent.ngOnInit - currentUser is NULL! Buttons will be disabled!');
     }
 
     this.loadGroups();
@@ -894,14 +1097,6 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
    * Debug user permissions
    */
   private debugUserPermissions(): void {
-    console.log('🔍 ManageGroupsComponent.debugUserPermissions - currentUser:', this.currentUser);
-    if (this.currentUser) {
-      console.log('🔍 ManageGroupsComponent.debugUserPermissions - user roles:', this.currentUser.roles);
-      console.log('🔍 ManageGroupsComponent.debugUserPermissions - canCreateGroup:', this.canCreateGroup());
-      console.log('🔍 ManageGroupsComponent.debugUserPermissions - canEditGroup (first group):', this.groups.length > 0 ? this.canEditGroup(this.groups[0]) : 'No groups');
-    } else {
-      console.log('🔍 ManageGroupsComponent.debugUserPermissions - No current user');
-    }
   }
 
   loadGroups(): void {
@@ -1055,13 +1250,19 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
 
   // Business Logic: Permission checks
   canCreateGroup(): boolean {
-    if (!this.currentUser) return false;
-    return this.currentUser.roles.includes(UserRole.SUPER_ADMIN) ||
+    if (!this.currentUser) {
+      return false;
+    }
+    const canCreate = this.currentUser.roles.includes(UserRole.SUPER_ADMIN) ||
       this.currentUser.roles.includes(UserRole.GROUP_ADMIN);
+    return canCreate;
   }
 
   canEditGroup(group: Group): boolean {
-    if (!this.currentUser) return false;
+    if (!this.currentUser) {
+      console.warn('⚠️ canEditGroup: No currentUser, returning false');
+      return false;
+    }
     if (this.currentUser.roles.includes(UserRole.SUPER_ADMIN)) return true;
     if (this.currentUser.roles.includes(UserRole.GROUP_ADMIN)) {
       return group.createdBy === (this.currentUser as any).id;
@@ -1070,7 +1271,10 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
   }
 
   canDeleteGroup(group: Group): boolean {
-    if (!this.currentUser) return false;
+    if (!this.currentUser) {
+      console.warn('⚠️ canDeleteGroup: No currentUser, returning false');
+      return false;
+    }
     if (this.currentUser.roles.includes(UserRole.SUPER_ADMIN)) return true;
     if (this.currentUser.roles.includes(UserRole.GROUP_ADMIN)) {
       return group.createdBy === (this.currentUser as any).id;
@@ -1079,7 +1283,10 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
   }
 
   canToggleGroupStatus(group: Group): boolean {
-    if (!this.currentUser) return false;
+    if (!this.currentUser) {
+      console.warn('⚠️ canToggleGroupStatus: No currentUser, returning false');
+      return false;
+    }
     if (this.currentUser.roles.includes(UserRole.SUPER_ADMIN)) return true;
     if (this.currentUser.roles.includes(UserRole.GROUP_ADMIN)) {
       return group.createdBy === (this.currentUser as any).id;

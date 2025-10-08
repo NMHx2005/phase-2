@@ -65,11 +65,19 @@ import { Group, GroupStatus } from '../../../../models/group.model';
             <mat-option value="education">Education</mat-option>
             <mat-option value="entertainment">Entertainment</mat-option>
             <mat-option value="design">Design</mat-option>
+            <mat-option value="general">General</mat-option>
             <mat-option value="other">Other</mat-option>
+            <!-- Show old category value if it doesn't match standard options -->
+            <mat-option *ngIf="hasCustomCategory()" [value]="group?.category" disabled>
+              {{ group?.category }} (Legacy - Please select a new category)
+            </mat-option>
           </mat-select>
           <mat-error *ngIf="groupForm.get('category')?.hasError('required')">
             Category is required
           </mat-error>
+          <mat-hint *ngIf="hasCustomCategory()">
+            This group has a custom category. Please select a standard category.
+          </mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -237,5 +245,15 @@ export class GroupFormComponent implements OnInit, OnChanges {
 
       this.formSubmit.emit(formData);
     }
+  }
+
+  /**
+   * Check if group has a custom category that doesn't match standard options
+   */
+  hasCustomCategory(): boolean {
+    if (!this.group?.category) return false;
+
+    const standardCategories = ['technology', 'business', 'education', 'entertainment', 'design', 'general', 'other'];
+    return !standardCategories.includes(this.group.category.toLowerCase());
   }
 }

@@ -27,6 +27,7 @@ export interface IGroup extends Document {
 export interface IGroupCreate {
     name: string;
     description: string;
+    category?: string;  // ← THÊM FIELD NÀY để backend nhận category từ frontend
     status?: 'active' | 'inactive' | 'pending';
     isPrivate?: boolean;
     maxMembers?: number;
@@ -39,6 +40,7 @@ export interface IGroupCreate {
 export interface IGroupUpdate {
     name?: string;
     description?: string;
+    category?: string;  // ← THÊM FIELD NÀY để có thể update category
     status?: 'active' | 'inactive' | 'pending';
     isPrivate?: boolean;
     maxMembers?: number;
@@ -105,6 +107,7 @@ export class GroupModel {
         return {
             name: data.name,
             description: data.description,
+            category: data.category || 'general',  // ← MAP category từ request, nếu không có thì dùng 'general'
             status: data.status || 'active',
             isPrivate: data.isPrivate || false,
             maxMembers: data.maxMembers,
@@ -123,6 +126,7 @@ export class GroupModel {
 
         if (data.name !== undefined) update.name = data.name;
         if (data.description !== undefined) update.description = data.description;
+        if (data.category !== undefined) update.category = data.category;  // ← Cho phép update category
         if (data.status !== undefined) update.status = data.status;
         if (data.isPrivate !== undefined) update.isPrivate = data.isPrivate;
         if (data.maxMembers !== undefined) update.maxMembers = data.maxMembers;
